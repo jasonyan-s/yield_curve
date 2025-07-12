@@ -45,13 +45,16 @@ def fetch_or_input_yield_curve():
     source = st.sidebar.radio("Choose rate input method", ["Manual Input", "Load from US FRED API"])
     fred_rates = {}
 
-    if source == "Load from US FRED":
+
+    if source == "Load from US FRED API":
         api_key = st.secrets.get("FRED_API_KEY") or st.text_input("Enter your FRED API Key", type="password")
+
         series_ids = {"30D": "DGS1MO", "90D": "DGS3MO", "180D": "DGS6MO", "1Y": "DGS1", "2Y": "DGS2", "5Y": "DGS5", "10Y": "DGS10"}
         if api_key:
             fred_rates = get_fred_yield_data(api_key, series_ids)
             
         else:
+
             st.sidebar.warning("Enter a valid FRED API key.")
     return source, fred_rates
 
@@ -1201,6 +1204,5 @@ def main(default_values):
 if __name__ == "__main__":
     source, fred_rates = fetch_or_input_yield_curve()
     default_values = initialize_default_values(fred_rates)
-    print(default_values)
-    print(fred_rates)
+
     main(default_values)
